@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Kamu</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .text {
+            position: absolute;
+            font-size: 20px;
+            color: #fff;
+            font-weight: bold;
+            animation: fly linear infinite;
+        }
+
+        @keyframes fly {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const textContent = "KAMU 😆";
+        const numberOfTexts = 50;
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function getRandomDirection() {
+            const directions = ['-100vh', '100vh', '-100vw', '100vw'];
+            return directions[Math.floor(Math.random() * directions.length)];
+        }
+
+        function createFlyingText() {
+            const text = document.createElement('div');
+            text.className = 'text';
+            text.innerText = textContent;
+            text.style.left = getRandomInt(0, window.innerWidth) + 'px';
+            text.style.top = getRandomInt(0, window.innerHeight) + 'px';
+            text.style.animationDuration = getRandomInt(5, 15) + 's';
+            text.style.setProperty('--x', getRandomDirection());
+            text.style.setProperty('--y', getRandomDirection());
+            document.body.appendChild(text);
+
+            text.addEventListener('animationend', () => {
+                text.remove();
+                createFlyingText();
+            });
+        }
+
+        for (let i = 0; i < numberOfTexts; i++) {
+            createFlyingText();
+        }
+    </script>
+</body>
+</html>
